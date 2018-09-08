@@ -1,6 +1,6 @@
 # pyGK
-Comprehensive text-based client for govnokod.ru in `python` + `ncurses`
-Also contains `govnomatrix` — chat-bot for #govnokod:matrix.org
+SDK for clients and bots for govnokod.ru in `python`
+Also contains `govnomatrix` — chat-bot for [#govnokod:matrix.org](https://riot.im/app/#/room/#govnokod:matrix.org)
 
 # TODO
 - [ ] использовать общий конфиг-файл (`.gitignore` + `conf.temlate`), требовать для запуска
@@ -14,15 +14,11 @@ Also contains `govnomatrix` — chat-bot for #govnokod:matrix.org
   - комментарий в треде пользователя
   - ответ на комментарий
   - звуковые уведомления (звук, чтение комментария вслух `spd-say)
-- [ ] объединить `stock` и `new` в едином text-based интерфейсе на `ncurses`
-  - интерфейс должен быть независим от api ngk и govnokod.ru
-  - несколько режимов: сток, чтение дерева со скроллом, чтение дерева email-like
-- [ ] имитировать разметку комментариев средствами `terminfo` (b, i, s, color, spoiler, code)
-- [ ] возможность отвечать прямо из консоли
+- [ ] возможность отвечать прямо из терминала 
 
 # TODO (govnomatrix)
 
 - [ ] использовать `/ngk/api/post` для взятия родителя
 - [ ] конвертер `html → bb` для обратного постинга
 - [ ] распознавать цитирование `>`
-- [ ] возможность отвечать
+- [ ] распознавать ответы пользователей и кросс-постить их

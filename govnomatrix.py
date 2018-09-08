@@ -7,8 +7,8 @@ from bs4 import BeautifulSoup as bs
 class Govnomatrix:
     def __init__(self):
         self.client = MatrixClient('http://matrix.org')
-        self.client.login_with_password(username='govnomatrix', password='')
-        self.room = self.client.join_room('#govnokod:matrix.org')
+        self.client.login_with_password(username='govnomatrix', password='bormandmylove')
+        self.room = self.client.join_room('#testgkbotroom:matrix.org')
 
     def getUserUrl(self, comment):
         for user in self.room.get_joined_members():
@@ -17,11 +17,11 @@ class Govnomatrix:
             else:
                 return userUrl(comment) 
 
-    def toMatrix(self, comment):
+    def prepareHtml(self, comment):
         soup = bs(comment['text'])
         for tag in soup.find_all():
             if tag.name == 'code':
-                tag['class'] = 'language-{}'.format(tag['class'])
+                tag['class'] = 'language-{}'.format(tag['class'][0])
             elif tag.name == 'span':
                 if tag['style'] == 'text-decoration:underline;':
                     tag.name = 'u'
@@ -30,6 +30,8 @@ class Govnomatrix:
                 elif tag['style'][:5] == 'color':
                     tag.name = 'font'
                     tag['color'] = tag['style'][6:-1]
+                elif tag['style'] == 'font-size:20px;':
+                    tag.name = 'h1'
                 
                 del tag['style']
         
@@ -37,4 +39,4 @@ class Govnomatrix:
 
     def send(self, c):
         self.room.send_html("""<a href="{}"><b>{}</b></a> в {} <a href="{}"><b>#</b></a>:<br>
-{}""".format(self.getUserUrl(c), c['user_name'], c['post_id'], commentUrl(c), self.toMatrix(c)))
+{}""".format(self.getUserUrl(c), c['user_name'], c['post_id'], commentUrl(c), self.prepareHtml(c)))
