@@ -8,9 +8,11 @@ from core import *
 import time
 from bs4 import BeautifulSoup as bs 
 
-def init():
+from govnomatrix import Govnomatrix
+
+def init(gm = None):
     stock = loadComments()
-    printComments(stock, readBlackList())
+    printComments(stock, readBlackList(), gm)
     return stock[0]['id']
 
 def pretty(text):
@@ -20,28 +22,25 @@ def printComment(c):
     print('{} into #{} | {}\n{}'.format(
         esc(BOLD, c['user_name']),
         c['post_id'],
-        'http://govnokod.ru/{}#comment{}'.format(
-            c['post_id'],
-            c['id']
-        ),
+        commentUrl(c),
         pretty(c['text'])
     ))
     print()
 
-def printComments(comments, blacklist):
-    for comment in reversed(comments): 
+def printComments(comments, blacklist, gm = None):
+    for comment in reversed(comments):
         if not comment['user_name'] in blacklist:
             printComment(comment)
+            if gm:
+                gm.send(comment)
 
-def refresh(last):
+def refresh(last, gm = None):
     stock = load(last)
-    printComments(stock, readBlackList())
+    printComments(stock, readBlackList(), gm)
     return last if len(stock) == 0 else stock[0]['id']
 
-last = init()
+gm = Govnomatrix()
+last = init(gm)
 while True:
-    try:
-        last = refresh(last)
-    except:
-        pass
+    last = refresh(last, gm)
     time.sleep(10)

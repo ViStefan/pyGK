@@ -1,9 +1,11 @@
 # pyGK
 Comprehensive text-based client for govnokod.ru in `python` + `ncurses`
+Also contains `govnomatrix` — chat-bot for #govnokod:matrix.org
 
 # TODO
-- [ ] автоматическое создание файлов `blacklist` и `last_seen`, если при запуске их нет
-- [ ] переделать алгоритм построения дерева комментариев, использовать метод `ngk api post`
+- [ ] использовать общий конфиг-файл (`.gitignore` + `conf.temlate`), требовать для запуска
+- [ ] отрефакторить `comment['']` в объект
+- [ ] переписать также построение дерева на `comment.parent` и `comment.children`
 - [ ] поддержка поиска `ngk api search`
 - [ ] настраиваемые системные уведомления (`notify-send`)
   - упоминание по имени
@@ -17,3 +19,10 @@ Comprehensive text-based client for govnokod.ru in `python` + `ncurses`
   - несколько режимов: сток, чтение дерева со скроллом, чтение дерева email-like
 - [ ] имитировать разметку комментариев средствами `terminfo` (b, i, s, color, spoiler, code)
 - [ ] возможность отвечать прямо из консоли
+
+# TODO (govnomatrix)
+
+- [ ] использовать `/ngk/api/post` для взятия родителя
+- [ ] конвертер `html → bb` для обратного постинга
+- [ ] распознавать цитирование `>`
+- [ ] возможность отвечать

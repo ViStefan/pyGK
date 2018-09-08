@@ -31,3 +31,8 @@ def readBlackList():
     except:
         return []
 
+def commentUrl(comment):
+    return "http://govnokod.ru/{}#comment{}".format(comment['post_id'], comment['id'])
+
+def userUrl(comment):
+    return "http://govnokod.ru/user/{}".format(comment['user_id'])
