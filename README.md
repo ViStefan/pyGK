@@ -3,8 +3,8 @@ SDK for clients and bots for govnokod.ru in `python`
 Also contains `govnomatrix` — chat-bot for [#govnokod:matrix.org](https://riot.im/app/#/room/#govnokod:matrix.org)
 
 # TODO
-- [ ] использовать общий конфиг-файл (`.gitignore` + `conf.temlate`), требовать для запуска
-- [ ] отрефакторить `comment['']` в объект
+- [x] использовать общий конфиг-файл (`.gitignore` + `pyGK.cfg.sample`)
+- [x] отрефакторить `comment['']` в объект
 - [ ] переписать также построение дерева на `comment.parent` и `comment.children`
 - [ ] поддержка поиска `ngk api search`
 - [ ] настраиваемые системные уведомления (`notify-send`)

@@ -2,45 +2,42 @@
 
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
-
-from ngkapi import loadFreshComments as load, loadComments
-from core import *
-import time
 from bs4 import BeautifulSoup as bs 
+import time
 
+from core import Core 
+from ngkapi import NGK 
 from govnomatrix import Govnomatrix
 
-def init(gm = None):
-    stock = loadComments()
-    printComments(stock, readBlackList(), gm)
-    return stock[0]['id']
-
-def pretty(text):
-    return bs(text, "html.parser").text
-
-def printComment(c):
+def print_comment(c):
     print('{} into #{} | {}\n{}'.format(
-        esc(BOLD, c['user_name']),
-        c['post_id'],
-        commentUrl(c),
-        pretty(c['text'])
+        c.user_name,
+        c.post_id,
+        c.url,
+        bs(c.text, "html.parser").text
     ))
     print()
 
-def printComments(comments, blacklist, gm = None):
-    for comment in reversed(comments):
-        if not comment['user_name'] in blacklist:
-            printComment(comment)
+def process(comments):
+    for c in reversed(comments):
+        if not c.user_name in core.blacklist:
+            print_comment(c) 
             if gm:
-                gm.send(comment)
+                gm.send(c)
 
-def refresh(last, gm = None):
-    stock = load(last)
-    printComments(stock, readBlackList(), gm)
-    return last if len(stock) == 0 else stock[0]['id']
+core = Core()
+ngk = NGK(core)
+gm = Govnomatrix(core) if core.config.getboolean('matrix', 'enabled') else None
 
-gm = Govnomatrix()
-last = init(gm)
 while True:
-    last = refresh(last, gm)
+    try:
+        stock = ngk.refresh()
+        if len(stock):
+            core.config.set('main', 'last_seen', stock[0].id)
+            core.write_config()
+
+        process(stock)
+    except:
+        pass
+        
     time.sleep(10)

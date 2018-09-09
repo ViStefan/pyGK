@@ -1,0 +1,18 @@
+[main]
+last_seen: 428897
+blacklist: syoma 
+
+[matrix]
+enabled = False
+server: https://matrix.org
+username: govnomatrix
+password: password
+
+[govnokod]
+username: govnomatrix
+password: password
+
+[proxy]
+enabled = False
+host: host
+port: port
