@@ -8,7 +8,7 @@ class Comment():
     def __init__(self, comment):
         self.__dict__.update(comment)
         # urls to be inserted in different representations
-        self.url = '{}{}#comments{}'.format(GK_URL, self.post_id, self.id)
+        self.url = '{}{}#comment{}'.format(GK_URL, self.post_id, self.id)
         self.user_url = '{}user/{}'.format(GK_URL, self.user_id)
         self.recipient = None
 

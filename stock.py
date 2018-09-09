@@ -34,11 +34,12 @@ while True:
     try:
         stock = ngk.refresh()
         if len(stock):
-            core.config.set('main', 'last_seen', stock[0].id)
-            core.write_config()
+            if stock[0].id > core.config.getint('main', 'last_seen'):
+                core.config.set('main', 'last_seen', stock[0].id)
+                core.write_config()
 
         process(stock)
     except:
         pass
         
-        time.sleep(10)
+    time.sleep(10)
