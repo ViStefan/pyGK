@@ -14,12 +14,18 @@ class Govnomatrix:
         self.client.login_with_password(username=username, password=password)
         self.room = self.client.join_room(room)
 
-    def getUserUrl(self, c):
+    # returns special url if there is corresponding user in room
+    # same for recipient
+    # if possible, url points to matrix user, otherwise to GK profile
+    def getUserUrl(self, c, recipient=False):
+        username = c.recipient.lower() if recipient else c.user_name.lower()
+        url = c.recipient_url if recipient else c.user_url
+
         for user in self.room.get_joined_members():
-            if user.get_display_name().lower() == c.user_name.lower():
+            if user.get_display_name().lower() == username:
                 return 'https://matrix.to/#/{}'.format(user.user_id)
-            else:
-                return c.user_url 
+
+        return url 
 
     def prepareHtml(self, c):
         soup = bs(c.text)
@@ -41,6 +47,24 @@ class Govnomatrix:
         
         return soup
 
+    def template(self, c):
+        if c.recipient:
+            recipient = 'to <a href="{}">{}</a>'.format(
+                self.getUserUrl(c, recipient=True),
+                c.recipient
+            )
+        else:
+            recipient = 'into {}'.format(c.post_id)
+
+        return """
+<a href="{}"><b>{}</b></a> {} <a href="{}"><b>#</b></a>:<br>
+{}
+""".format(
+        self.getUserUrl(c),
+        c.user_name,
+        recipient,
+        c.url,
+        self.prepareHtml(c))
+
     def send(self, c):
-        self.room.send_html("""<a href="{}"><b>{}</b></a> в {} <a href="{}"><b>#</b></a>:<br>
-{}""".format(self.getUserUrl(c), c.user_name, c.post_id, c.url, self.prepareHtml(c)))
+        self.room.send_html(self.template(c))

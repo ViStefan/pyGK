@@ -10,9 +10,10 @@ from ngkapi import NGK
 from govnomatrix import Govnomatrix
 
 def print_comment(c):
-    print('{} into #{} | {}\n{}'.format(
+    print('{} into #{}{} | {}\n{}'.format(
         c.user_name,
         c.post_id,
+        ' to {}'.format(c.recipient) if c.recipient else '',
         c.url,
         bs(c.text, "html.parser").text
     ))
@@ -40,4 +41,4 @@ while True:
     except:
         pass
         
-    time.sleep(10)
+        time.sleep(10)

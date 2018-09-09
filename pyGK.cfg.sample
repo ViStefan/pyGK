@@ -3,7 +3,7 @@ last_seen: 428897
 blacklist: syoma 
 
 [matrix]
-enabled = False
+enabled: False
 server: https://matrix.org
 username: govnomatrix
 password: password
@@ -12,7 +12,10 @@ password: password
 username: govnomatrix
 password: password
 
+[ngk]
+load_recipient: False
+
 [proxy]
-enabled = False
+enabled: False
 host: host
 port: port
