@@ -28,7 +28,15 @@ class Govnomatrix:
         return url 
 
     def prepareHtml(self, c):
-        soup = bs(c.text)
+        text = []
+        for line in c.text.split('\n'):
+            plain = bs(line).text
+            if len(plain) and plain[0] == '>':
+                text.append('<blockquote>{}</blockquote>'.format(line.replace('&gt;', '', 1)))
+            else:
+                text.append(line)
+
+        soup = bs(''.join(text))
         for tag in soup.find_all():
             if tag.name == 'code':
                 tag['class'] = 'language-{}'.format(tag['class'][0])
