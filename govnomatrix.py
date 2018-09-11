@@ -2,6 +2,7 @@
 
 from matrix_client.client import MatrixClient
 from bs4 import BeautifulSoup as bs
+import re
 
 class Govnomatrix:
     def __init__(self, core):
@@ -36,7 +37,7 @@ class Govnomatrix:
             else:
                 text.append(line)
 
-        soup = bs(''.join(text))
+        soup = bs(''.join(text), "lxml")
         for tag in soup.find_all():
             if tag.name == 'code':
                 tag['class'] = 'language-{}'.format(tag['class'][0])
@@ -53,19 +54,22 @@ class Govnomatrix:
                 
                 del tag['style']
         
-        return soup
+        return re.sub(r'(</pre>|</blockquote>|</h1>|<br/>)<br/>', r'\1', str(soup))
 
     def template(self, c):
         if c.recipient:
-            recipient = 'to <a href="{}">{}</a>'.format(
-                self.getUserUrl(c, recipient=True),
-                c.recipient
-            )
+            if c.recipient.lower() == c.user_name.lower():
+                recipient = 'added'
+            else:
+                recipient = 'to <a href="{}">{}</a>'.format(
+                    self.getUserUrl(c, recipient=True),
+                    c.recipient
+                )
         else:
             recipient = 'into {}'.format(c.post_id)
 
         return """
-<a href="{}"><b>{}</b></a> {} <a href="{}"><b>#</b></a>:<br>
+<a href="{}"><b>{}</b></a> {} <a href="{}"><b>#</b></a>:<br/>
 {}
 """.format(
         self.getUserUrl(c),

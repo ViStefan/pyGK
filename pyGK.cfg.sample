@@ -4,7 +4,7 @@ blacklist: syoma
 
 [matrix]
 enabled: False
-server: https://matrix.org
+server: http://matrix.org
 room: #govnokod:matrix.org
 username: govnomatrix
 password: password
