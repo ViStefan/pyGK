@@ -31,7 +31,7 @@ class Govnomatrix:
     def prepareHtml(self, c):
         text = []
         for line in c.text.split('\n'):
-            plain = bs(line, "lxlm").text
+            plain = bs(line, "lxml").text
             if len(plain) and plain[0] == '>':
                 text.append('<blockquote>{}</blockquote>'.format(line.replace('&gt;', '', 1)))
             else:
