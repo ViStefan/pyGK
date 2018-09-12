@@ -19,7 +19,7 @@ Also contains `govnomatrix` — chat-bot for [#govnokod:matrix.org](https://riot
 
 # TODO (govnomatrix)
 
-- [x] использовать `/ngk/api/post` для взятия родителя
+- [x] использовать ngk API для взятия родителя
 - [ ] конвертер `html → bb` для обратного постинга
 - [ ] распознавать цитирование `>`
 - [ ] распознавать ответы пользователей и кросс-постить их
