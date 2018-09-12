@@ -1,5 +1,4 @@
 [main]
-last_seen: 428897
 blacklist: syoma 
 
 [matrix]
@@ -14,7 +13,7 @@ username: govnomatrix
 password: password
 
 [ngk]
-load_recipient: False
+use_recipients: False
 
 [proxy]
 enabled: False

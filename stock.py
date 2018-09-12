@@ -27,18 +27,12 @@ def process(comments):
                 gm.send(c)
 
 core = Core()
-ngk = NGK(core)
+ngk = NGK(use_recipients = core.config.getboolean('ngk', 'use_recipients'))
 gm = Govnomatrix(core) if core.config.getboolean('matrix', 'enabled') else None
 
 while True:
     try:
-        stock = ngk.refresh()
-        if len(stock):
-            if stock[0].id > core.config.getint('main', 'last_seen'):
-                core.config.set('main', 'last_seen', stock[0].id)
-                core.write_config()
-
-        process(stock)
+        process(ngk.refresh())
     except:
         pass
         
